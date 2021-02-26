@@ -11,7 +11,7 @@ module.exports = {
         NODE_ENV: 'development',
         PORT : 3000,
         URL_DB : 'mongodb+srv://maicol:1234@cluster0.c7ppq.mongodb.net/project1?retryWrites=true&w=majority'
-       //        'mongodb://localhost/dbanme'
+       //        'mongodb://localhost:27017/lab3'
       }
     }]
   };
