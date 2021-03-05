@@ -1,7 +1,7 @@
 const fs = require('fs')
 const exec = require('child-process-async').exec;
 
-var serverUrl = () => 'http://' + fs.readFileSync('./server_url.txt', { encoding: 'utf-8' }) + ':4000'
+var serverUrl = () => 'http://' + fs.readFileSync('./server_url.txt', { encoding: 'utf-8' }) + ':3000'
 var sleep = (seg) => new Promise(res => { setTimeout(() => { res() }, seg * 1000) })
 
 async function monitoring() {
@@ -30,7 +30,7 @@ async function request() {
 async function createInstance() {
     try {
         let instance_name = 'server_' + Date.now()
-        let backup_ip = process.env.BACKUP_IP || '192.168.1.70'
+        let backup_ip = process.env.BACKUP_IP || '192.168.1.82'
         let new_ip = getNewIP()
         let { stdout } = await exec(`ssh root@${backup_ip} ls -t /db/backups/ | head -1 `)
         await exec(`sh createInstance.sh  ${instance_name} ${new_ip} ${stdout.split('\n')[0]} ${backup_ip} `)

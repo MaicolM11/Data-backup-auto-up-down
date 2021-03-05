@@ -10,7 +10,7 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         PORT : 3000,
-        BACKUP_IP: '192.168.1.70'
+        BACKUP_IP: '192.168.1.82'
       }
     }]
   };
