@@ -1,6 +1,6 @@
 const fs = require('fs')
 const exec = require('child-process-async').exec;
-
+const logger = require('./Logger');
 var serverUrl = () => 'http://' + fs.readFileSync('./server_url.txt', { encoding: 'utf-8' }) + ':3000'
 var sleep = (seg) => new Promise(res => { setTimeout(() => { res() }, seg * 1000) })
 
@@ -35,7 +35,10 @@ async function createInstance() {
         let { stdout } = await exec(`ssh root@${backup_ip} ls -t /db/backups/ | head -1 `)
         await exec(`sh createInstance.sh  ${instance_name} ${new_ip} ${stdout.split('\n')[0]} ${backup_ip} `)
         fs.writeFileSync('./server_url.txt', new_ip)
-    } catch { }
+        logger.info(`[Middle]: New instance created in: ${new_ip}`)
+    } catch (err) {
+        logger.error(`[Middle]:${err.message||err.toString()}`)
+    }
 }
 
 module.exports = { monitoring, serverUrl }
