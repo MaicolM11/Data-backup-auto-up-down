@@ -1,6 +1,5 @@
 #!/bin/bash
-echo "entra"
-echo $1
+
 # permission 
 cat /dev/zero | ssh-keygen -q -N ""
 sshpass -p "123" ssh-copy-id -o StrictHostKeyChecking=no root@192.168.1.82
