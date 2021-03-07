@@ -1,6 +1,6 @@
 const express = require('express')
 const axios = require('axios')
-const cors = require('cors');
+const cors = require('cors')
 
 const monitor = require('./monitoring').monitoring
 const serverUrl = require('./monitoring').serverUrl
@@ -10,17 +10,15 @@ const logger = require('./Logger').route
 var app = express()
 var port = process.env.PORT || 3000
 
-app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors())
 app.use(express.static('public'))
-app.use('logs', logger)
+app.use('/logs', logger)
+app.use(cors())
 
 app.get('/notes', (req, res) => {
-    axios.get(serverUrl(), (err, response) => {
-        if (err) manageErr(err, res)
-        else res.json(response.data)
-    })
+    axios.get(serverUrl())
+        .then(resp => res.send(resp.data))
+        .catch(error => manageErr(error, res))
 })
 
 app.post('/notes', (req, res) => {

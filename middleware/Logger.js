@@ -31,4 +31,4 @@ function manageInfo(err, res) {
     if (res) res.sendStatus(200)
 }
 
-module.exports = { manageErr, route }
+module.exports = { manageErr, route , logger}
