@@ -1,17 +1,18 @@
 const express = require('express')
 const axios = require('axios')
+const morgan = require('morgan')
 
 const monitor = require('./monitoring').monitoring
 const serverUrl = require('./monitoring').serverUrl
 const manageErr = require('./Logger').manageErr
-const logger = require('./Logger').route
-
+const logger = require('./Logger')
 var app = express()
 var port = process.env.PORT
 
 app.use(express.json())
 app.use(express.static('public'))
-app.use('/logs', logger)
+app.use('/logs', logger.route)
+app.use(morgan(':method :url - :referrer :status :response-time ms', { stream: logger.logger.stream }));
 
 app.get('/notes', (req, res) => {
     axios.get(serverUrl())
@@ -26,6 +27,6 @@ app.post('/notes', (req, res) => {
 })
 
 app.listen(port, async () => {
-    console.log(`Middleware is running on port ${port}`);
+    logger.manageInfo(`[Middle]: Middleware is running on port ${port}`)
     monitor()
 })
