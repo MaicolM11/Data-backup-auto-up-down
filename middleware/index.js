@@ -27,7 +27,7 @@ app.post('/notes', (req, res) => {
         .catch(error => manageErr(error, res))
 })
 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Middleware is running on port ${port}`);
     monitor()
 })
