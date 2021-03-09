@@ -16,6 +16,8 @@ app.get('/', async (req, res) => {
     res.send(result)
 })
 
+app.get('/test', (req, res)=> res.sendStatus(200))
+
 app.post('/', async (req, res) => {
     try {
         let note = new Note(req.body)
