@@ -1,6 +1,5 @@
 const express = require('express')
 const axios = require('axios')
-const cors = require('cors')
 
 const monitor = require('./monitoring').monitoring
 const serverUrl = require('./monitoring').serverUrl
@@ -8,12 +7,11 @@ const manageErr = require('./Logger').manageErr
 const logger = require('./Logger').route
 
 var app = express()
-var port = process.env.PORT || 3000
+var port = process.env.PORT
 
 app.use(express.json())
 app.use(express.static('public'))
 app.use('/logs', logger)
-app.use(cors())
 
 app.get('/notes', (req, res) => {
     axios.get(serverUrl())

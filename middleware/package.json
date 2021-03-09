@@ -5,16 +5,15 @@
   "main": "index.js",
   "scripts": {
     "wp": "webpack-dev-server --mode development --open --hot",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "PORT=3000  BACKUP_IP=192.168.1.84 node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
     "child-process-async": "^1.0.1",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "morgan": "^1.10.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "winston": "^3.3.3"

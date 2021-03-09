@@ -7,13 +7,11 @@ var sleep = (seg) => new Promise(res => { setTimeout(() => { res() }, seg * 1000
 
 async function monitoring() {
     while (true) {
-        let success = await request()
-        if (!success) {
+        if (!(await request())) {
             await sleep(5)
-            success = await request()
-            if (!success) await createInstance();
+            if (!(await request())) await createInstance();
         }
-        await sleep(3)
+        await sleep(1)
     }
 }
 
@@ -25,23 +23,21 @@ function getNewIP() {
 
 async function request() {
     try {
-        let { stdout } = await exec(`sh monitoring.sh ${serverUrl()}test`)
-        return stdout.split('\n').shift() !== '0'
+        let { stdout } = await exec(`curl -m 1 ${serverUrl()}test`)
+        return stdout === 'OK'
     } catch { return false }
 }
 
 async function createInstance() {
     try {
-        let instance_name = 'server_' + Date.now()
-        let backup_ip = process.env.BACKUP_IP || '192.168.1.84'
-        let new_ip = getNewIP()
+        let instance_name = 'server_' + Date.now() , new_ip = getNewIP(), backup_ip = process.env.BACKUP_IP
         let { stdout } = await exec(`ssh root@${backup_ip} ls -t /db/backups/ | head -1`)
         logger.info(`[Middle]: Creating instance... IP:${new_ip} NAME:${instance_name}`)
         logger.info(`[Middle]: Restaure data. FOLDER:${stdout.split('\n')[0]} FROM IP:${backup_ip}`)
         await exec(`sh createInstance.sh  ${instance_name} ${new_ip} ${stdout.split('\n')[0]} ${backup_ip} `)
         fs.writeFileSync('./server_url.txt', new_ip)
         logger.info(`[Middle]: New instance created!`)
-        await sleep(10)
+        await sleep(15)
     } catch (err) {
         logger.error(`[Middle]:${err.message || err.toString()}`)
     }
