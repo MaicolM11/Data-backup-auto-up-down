@@ -23,7 +23,7 @@ function getNewIP() {
 
 async function request() {
     try {
-        let { stdout } = await exec(`curl -o /dev/null -s -w %{size_download} ${serverUrl()}`)
+        let { stdout } = await exec(`curl -o /dev/null -s -w %{size_download} -m 1 ${serverUrl()}`)
         return stdout !== '0'
     } catch { return false }
 }
@@ -34,11 +34,11 @@ async function createInstance() {
         let backup_ip = process.env.BACKUP_IP || '192.168.1.82'
         let new_ip = getNewIP()
         let { stdout } = await exec(`ssh root@${backup_ip} ls -t /db/backups/ | head -1 `)
-        logger.info(`[Middle]: Creating instance. IP:${new_ip} NAME:${instance_name}`)
-        logger.info(`[Middle]: TO RESTAURE FOLDER:${stdout.split('\n')[0]} IP:${backup_ip}`)
+        logger.info(`[Middle]: Creating instance... IP:${new_ip} NAME:${instance_name}`)
+        logger.info(`[Middle]: Restaure data. FOLDER:${stdout.split('\n')[0]} FROM IP:${backup_ip}`)
         await exec(`sh createInstance.sh  ${instance_name} ${new_ip} ${stdout.split('\n')[0]} ${backup_ip} `)
         fs.writeFileSync('./server_url.txt', new_ip)
-        logger.info(`[Middle]: New instance created in: ${new_ip}`)
+        logger.info(`[Middle]: New instance created!`)
     } catch (err) {
         logger.error(`[Middle]:${err.message||err.toString()}`)
     }

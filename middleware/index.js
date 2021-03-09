@@ -23,7 +23,7 @@ app.get('/notes', (req, res) => {
 
 app.post('/notes', (req, res) => {
     axios.post(serverUrl(), req.body)
-        .then(resp => res.sendStatus(resp.statusCode))
+        .then(resp => res.sendStatus(200))
         .catch(error => manageErr(error, res))
 })
 

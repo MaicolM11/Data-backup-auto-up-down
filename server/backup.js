@@ -11,8 +11,8 @@ async function backup() {
         await sleep(180) // cada 3 min para prueba
         try {
             await exec(`sh backup.sh ${ip_backup}`)
-            sendLogger('DB BACKUP COMPLETE', true)
-        } catch { sendLogger("DB BACKUP HASN'T BEEN COMPLETED", false) }
+            sendLogger('Database backup complete!', true)
+        } catch { sendLogger("Database backup hasn't been completed", false) }
     }
 }
 

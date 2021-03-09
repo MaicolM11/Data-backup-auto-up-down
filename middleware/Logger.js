@@ -14,11 +14,11 @@ var logger = createLogger({
 })
 
 route.post('/error', (req, res) => {
-    manageErr(`[${req.connection.remoteAddress}]:${req.body.message}`, res)
+    manageErr(`[Server:${req.connection.remoteAddress.split(':').pop()}]:${req.body.message}`, res)
 })
 
 route.post('/info', (req, res) => {
-    manageInfo(`[${req.connection.remoteAddress}]:${req.body.message}`, res)
+    manageInfo(`[Server:${req.connection.remoteAddress.split(':').pop()}]:${req.body.message}`, res)
 })
 
 function manageErr(err, res) {
