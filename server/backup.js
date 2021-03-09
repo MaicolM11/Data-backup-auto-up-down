@@ -8,7 +8,7 @@ var sleep = (seg) => new Promise(res => { setTimeout(() => { res() }, seg * 1000
 
 async function backup() {
     while (true) {
-        await sleep(180) // cada 3 min para prueba
+        await sleep(100) // cada 100 seg para prueba
         try {
             await exec(`sh backup.sh ${ip_backup}`)
             sendLogger('Database backup complete!', true)

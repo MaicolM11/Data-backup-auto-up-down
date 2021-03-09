@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # permission 
-cat /dev/zero | ssh-keygen -q -N ""
-sshpass -p "123" ssh-copy-id -o StrictHostKeyChecking=no root@$2
+sudo cat /dev/zero | ssh-keygen -q -N ""
+sudo sshpass -p "123" ssh-copy-id -o StrictHostKeyChecking=no root@$2
 
 # restore database
 sudo mkdir -m 777 /db

@@ -30,15 +30,17 @@ async function request() {
 
 async function createInstance() {
     try {
+        
         let instance_name = 'server_' + Date.now()
-        let backup_ip = process.env.BACKUP_IP || '192.168.1.82'
+        let backup_ip = process.env.BACKUP_IP || '192.168.1.84'
         let new_ip = getNewIP()
-        let { stdout } = await exec(`ssh root@${backup_ip} ls -t /db/backups/ | head -1 `)
+        let { stdout } = await exec(`ssh root@${backup_ip} ls -t /db/backups/ | head -1`)
         logger.info(`[Middle]: Creating instance... IP:${new_ip} NAME:${instance_name}`)
         logger.info(`[Middle]: Restaure data. FOLDER:${stdout.split('\n')[0]} FROM IP:${backup_ip}`)
         await exec(`sh createInstance.sh  ${instance_name} ${new_ip} ${stdout.split('\n')[0]} ${backup_ip} `)
         fs.writeFileSync('./server_url.txt', new_ip)
         logger.info(`[Middle]: New instance created!`)
+        await sleep(3)
     } catch (err) {
         logger.error(`[Middle]:${err.message||err.toString()}`)
     }
