@@ -1,21 +1,18 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import Note from './Note'
 
 function Group() {
     const [data, setData]=useState([])
-    const [loaded, setLoaded]=useState(false)
     
-    useEffect(()=>{
+    const getNotes=()=>{
         fetch(`${window.location}notes`)
         .then((response)=>{
-            console.log(response)
             return response.json()
         })
         .then((data)=>{
             setData(data)
-            setLoaded(true)
         })
-    })
+    }
 
     return (
         <div className="col"> 
@@ -23,6 +20,7 @@ function Group() {
                 <h1>
                     NOTAS
                 </h1>
+                <button onClick={getNotes} className="btn btn-primary mt-2">REFRESH</button>
             </div>
             <div className="row row-cols-5">
             
